@@ -55,9 +55,9 @@ FROM python:${BASE_PYTHON_VERSION}-slim as Application
 ARG BASE_PYTHON_VERSION
 ENV PYTHON_LIB_PATH=/usr/local/lib/python${BASE_PYTHON_VERSION}
 
-COPY --from=builder ./${PYTHON_LIB_PATH}/      ${PYTHON_LIB_PATH}/
-COPY --from=builder ./usr/local/bin/           /usr/local/bin/
-COPY --from=builder ./lib/x86_64-linux-gnu/    /lib/x86_64-linux-gnu/
-COPY --from=builder ./usr/lib/x86_64-linux-gnu /usr/lib/
-COPY --from=builder ./usr/bin/                 /usr/bin/
+COPY --from=builder ./${PYTHON_LIB_PATH}/       ${PYTHON_LIB_PATH}/
+COPY --from=builder ./usr/local/bin/            /usr/local/bin/
+COPY --from=builder ./lib/x86_64-linux-gnu/     /lib/x86_64-linux-gnu/
+COPY --from=builder ./usr/lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/
+COPY --from=builder ./usr/bin/                  /usr/bin/
 COPY --from=builder ./usr/lib/node_modules/bids-validator/    /usr/lib/node_modules/bids-validator/
