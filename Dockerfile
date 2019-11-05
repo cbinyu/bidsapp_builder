@@ -59,7 +59,7 @@ RUN pip install pybids && \
 #############
 
 ###  Now, get a new machine with only the essentials  ###
-FROM python:${BASE_PYTHON_VERSION}-slim as Application
+FROM python:${BASE_PYTHON_VERSION}-slim-stretch as Application
 
 # This makes the BASE_PYTHON_VERSION available inside this stage
 ARG BASE_PYTHON_VERSION
