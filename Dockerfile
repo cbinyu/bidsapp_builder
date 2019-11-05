@@ -1,4 +1,4 @@
-# Lightweight (~600 MB) container to base our BIDS Apps
+# Lightweight (~400 MB) container to base our BIDS Apps
 
 ARG BASE_PYTHON_VERSION=3.7
 
@@ -35,7 +35,21 @@ RUN apt-get update -qq && apt-get install -y gnupg && \
 
 ###   Install PyBIDS   ###
 
-RUN pip install pybids
+# From https://github.com/bids-standard/pybids:
+# "The core query functionality only requires the BIDS-Validator package.
+# However, they also install scipy, numpy, nibabel, pandas...
+# To make it lighterweight, I won't include them, and have the Apps
+#   install them if required:
+
+ENV PYTHON_LIB_PATH=/usr/local/lib/python${BASE_PYTHON_VERSION}
+
+RUN pip install pybids && \
+    pip uninstall --yes scipy \
+                        numpy \
+		        nibabel \
+		        pandas && \
+    rm -r ${PYTHON_LIB_PATH}/site-packages/bids/tests
+		  
 
 ###   Clean up a little   ###
 
