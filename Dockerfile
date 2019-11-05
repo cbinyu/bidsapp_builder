@@ -16,8 +16,6 @@ ARG BASE_PYTHON_VERSION
 # -curl, tar, unzip (to get the BIDS-Validator)
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
-    tar \
-    unzip \
   && apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y
 
 
