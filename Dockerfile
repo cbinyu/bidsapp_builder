@@ -53,12 +53,6 @@ RUN pip install pybids && \
 
 ###   Clean up a little   ###
 
-# Get rid of some test folders in some of the Python packages:
-# (They are not needed for our APP):
-RUN PYTHON_LIB_PATH=/usr/local/lib/python${BASE_PYTHON_VERSION} && \
-    rm -fr ${PYTHON_LIB_PATH}/site-packages/nibabel/nicom/tests \
-           ${PYTHON_LIB_PATH}/site-packages/nibabel/tests       \
-           ${PYTHON_LIB_PATH}/site-packages/nibabel/gifti/tests
 
 
 
