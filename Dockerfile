@@ -7,7 +7,7 @@ ARG BASE_PYTHON_VERSION=3.7
 # you build a BIDS App, you just get what you need for the actual APP
 
 # Use an official Python runtime as a parent image
-FROM python:${BASE_PYTHON_VERSION}-slim as builder
+FROM python:${BASE_PYTHON_VERSION}-slim-stretch as builder
 
 # This makes the BASE_PYTHON_VERSION available inside this stage
 ARG BASE_PYTHON_VERSION
