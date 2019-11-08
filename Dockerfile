@@ -1,13 +1,15 @@
 # Lightweight (~400 MB) container to base our BIDS Apps
 
+ARG DEBIAN_VERSION=stretch
 ARG BASE_PYTHON_VERSION=3.7
+# (don't use simply PYTHON_VERSION bc. it's an env variable)
 
 ###   Start by creating a "builder"   ###
 # We'll compile all needed packages in the builder, and then when
 # you build a BIDS App, you just get what you need for the actual APP
 
 # Use an official Python runtime as a parent image
-FROM python:${BASE_PYTHON_VERSION}-slim-stretch as builder
+FROM python:${BASE_PYTHON_VERSION}-slim-${DEBIAN_VERSION} as builder
 
 # This makes the BASE_PYTHON_VERSION available inside this stage
 ARG BASE_PYTHON_VERSION
@@ -57,7 +59,7 @@ RUN pip install pybids && \
 #############
 
 ###  Now, get a new machine with only the essentials  ###
-FROM python:${BASE_PYTHON_VERSION}-slim-stretch as Application
+FROM python:${BASE_PYTHON_VERSION}-slim-${DEBIAN_VERSION} as Application
 
 # This makes the BASE_PYTHON_VERSION available inside this stage
 ARG BASE_PYTHON_VERSION
