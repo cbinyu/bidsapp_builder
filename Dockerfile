@@ -1,6 +1,6 @@
 # Lightweight (~400 MB) container to base our BIDS Apps
 
-ARG DEBIAN_VERSION=stretch
+ARG DEBIAN_VERSION=buster
 ARG BASE_PYTHON_VERSION=3.7
 # (don't use simply PYTHON_VERSION bc. it's an env variable)
 
@@ -25,8 +25,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 # Install nodejs and bids-validator from npm:
 ARG BIDS_VALIDATOR_VERSION=1.2.4
-RUN apt-get update -qq && apt-get install -y gnupg && \
-    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get update -qq && apt-get install -y nodejs && \
     apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && \
   npm install -g bids-validator@${BIDS_VALIDATOR_VERSION} && \
