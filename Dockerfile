@@ -25,7 +25,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 
 # Install nodejs and bids-validator from npm:
 ARG BIDS_VALIDATOR_VERSION=1.2.4
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update -qq && apt-get install -y nodejs && \
     apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && \
   npm install -g bids-validator@${BIDS_VALIDATOR_VERSION} && \
