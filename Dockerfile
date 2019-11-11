@@ -1,7 +1,7 @@
-# Lightweight (~400 MB) container to base our BIDS Apps
+# Lightweight (~450 MB) container to base our BIDS Apps
 
 ARG DEBIAN_VERSION=buster
-ARG BASE_PYTHON_VERSION=3.7
+ARG BASE_PYTHON_VERSION=3.8
 # (don't use simply PYTHON_VERSION bc. it's an env variable)
 
 ###   Start by creating a "builder"   ###
