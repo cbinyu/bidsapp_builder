@@ -14,8 +14,11 @@ FROM python:${BASE_PYTHON_VERSION}-slim-${DEBIAN_VERSION} as builder
 # This makes the BASE_PYTHON_VERSION available inside this stage
 ARG BASE_PYTHON_VERSION
 
+# Upgrade pip:
+RUN pip install --upgrade pip
+
 ## install:
-# -curl, tar, unzip (to get the BIDS-Validator)
+# -curl (to get the BIDS-Validator)
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     curl \
   && apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y
@@ -24,7 +27,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 ###   Install BIDS-Validator   ###
 
 # Install nodejs and bids-validator from npm:
-ARG BIDS_VALIDATOR_VERSION=1.3.8
+ARG BIDS_VALIDATOR_VERSION=1.5.2
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update -qq && apt-get install -y nodejs && \
     apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && \
