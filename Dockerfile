@@ -1,4 +1,4 @@
-# Lightweight (~450 MB) container to base our BIDS Apps
+# Lightweight (~400 MB) container to base our BIDS Apps
 
 ARG DEBIAN_VERSION=buster
 ARG BASE_PYTHON_VERSION=3.8
@@ -32,8 +32,8 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update -qq && apt-get install -y nodejs && \
     apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && \
   npm install -g bids-validator@${BIDS_VALIDATOR_VERSION} && \
-  rm -r /usr/lib/node_modules/bids-validator/tests
-
+  rm -r /usr/lib/node_modules/bids-validator/tests && \
+  rm -r /usr/lib/node_modules/bids-validator/node_modules/aws-sdk/dist
 
 ###   Install PyBIDS   ###
 
@@ -54,7 +54,6 @@ RUN pip install pybids && \
 		  
 
 ###   Clean up a little   ###
-
 
 
 
