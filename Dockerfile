@@ -1,7 +1,7 @@
 # Lightweight (~400 MB) container to base our BIDS Apps
 
-ARG DEBIAN_VERSION=buster
-ARG BASE_PYTHON_VERSION=3.8
+ARG DEBIAN_VERSION=bullseye
+ARG BASE_PYTHON_VERSION=3.10
 ARG VIRTUAL_ENV=/opt/venv
 # (don't use simply PYTHON_VERSION bc. it's an env variable)
 
