@@ -2,6 +2,7 @@
 
 ARG DEBIAN_VERSION=buster
 ARG BASE_PYTHON_VERSION=3.8
+ARG VIRTUAL_ENV=/opt/venv
 # (don't use simply PYTHON_VERSION bc. it's an env variable)
 
 ###   Start by creating a "builder"   ###
@@ -13,9 +14,15 @@ FROM python:${BASE_PYTHON_VERSION}-slim-${DEBIAN_VERSION} as builder
 
 # This makes the BASE_PYTHON_VERSION available inside this stage
 ARG BASE_PYTHON_VERSION
+ARG VIRTUAL_ENV
 
 # Upgrade pip:
-RUN pip install --upgrade pip
+RUN pip install --upgrade virtualenv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN python -m pip install --upgrade pip \
+    && pip --version \
+    && python --version
 
 ## install:
 # -curl (to get the BIDS-Validator)
@@ -43,14 +50,14 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
 # To make it lighterweight, I won't include them, and have the Apps
 #   install them if required:
 
-ENV PYTHON_LIB_PATH=/usr/local/lib/python${BASE_PYTHON_VERSION}
+ENV PYTHON_LIB_PATH=${VIRTUAL_ENV}/lib/python${BASE_PYTHON_VERSION}
 
 RUN pip install pybids && \
     pip uninstall --yes scipy \
                         numpy \
 		        nibabel \
 		        pandas && \
-    rm -r ${PYTHON_LIB_PATH}/site-packages/bids/tests
+    rm -r ${VIRTUAL_ENV}/lib/python${BASE_PYTHON_VERSION}/site-packages/bids/tests
 		  
 
 ###   Clean up a little   ###
@@ -64,9 +71,10 @@ FROM python:${BASE_PYTHON_VERSION}-slim-${DEBIAN_VERSION} as Application
 
 # This makes the BASE_PYTHON_VERSION available inside this stage
 ARG BASE_PYTHON_VERSION
-ENV PYTHON_LIB_PATH=/usr/local/lib/python${BASE_PYTHON_VERSION}
+ARG VIRTUAL_ENV
 
-COPY --from=builder ./${PYTHON_LIB_PATH}/       ${PYTHON_LIB_PATH}/
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+COPY --from=builder ./${VIRTUAL_ENV}/       ${VIRTUAL_ENV}/
 COPY --from=builder ./usr/local/bin/            /usr/local/bin/
 COPY --from=builder ./lib/x86_64-linux-gnu/     /lib/x86_64-linux-gnu/
 COPY --from=builder ./usr/lib/x86_64-linux-gnu/ /usr/lib/x86_64-linux-gnu/
