@@ -34,13 +34,12 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 ###   Install BIDS-Validator   ###
 
 # Install nodejs and bids-validator from npm:
-ARG BIDS_VALIDATOR_VERSION=1.5.7
+ARG BIDS_VALIDATOR_VERSION=v1.8.9
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update -qq && apt-get install -y nodejs && \
     apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y && \
   npm install -g bids-validator@${BIDS_VALIDATOR_VERSION} && \
-  rm -r /usr/lib/node_modules/bids-validator/tests && \
-  rm -r /usr/lib/node_modules/bids-validator/node_modules/aws-sdk/dist
+  rm -r /usr/lib/node_modules/bids-validator/node_modules/\@aws-*
 
 ###   Install PyBIDS   ###
 
