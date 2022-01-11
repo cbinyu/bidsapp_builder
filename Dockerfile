@@ -73,8 +73,9 @@ FROM python:${BASE_PYTHON_VERSION}-slim-${DEBIAN_VERSION} as Application
 ARG BASE_PYTHON_VERSION
 ARG VIRTUAL_ENV
 
-ENV PYTHON_LIB_PATH=${VIRTUAL_ENV}/lib/python${BASE_PYTHON_VERSION}
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV VIRTUAL_ENV=${VIRTUAL_ENV} \
+    PYTHON_LIB_PATH=${VIRTUAL_ENV}/lib/python${BASE_PYTHON_VERSION} \
+    PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY --from=builder ./${VIRTUAL_ENV}/       ${VIRTUAL_ENV}/
 COPY --from=builder ./usr/local/bin/            /usr/local/bin/
 COPY --from=builder ./lib/x86_64-linux-gnu/     /lib/x86_64-linux-gnu/
